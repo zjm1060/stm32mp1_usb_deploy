@@ -1,0 +1,15 @@
+gpio input 111;
+if gpio status 111 -eq 0 ; then
+    #usb disk boot
+    if usb reset; then 
+        echo start form usb disk; 
+        setenv devtype usb; 
+        setenv devnum 0; 
+        setenv distro_bootpart 1; 
+        run scan_dev_for_boot; 
+    fi;
+else 
+    #EMMC boot
+    env set boot_prefixes "/mmc_"
+    run bootcmd_mmc1
+fi
